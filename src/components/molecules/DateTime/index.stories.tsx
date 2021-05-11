@@ -5,7 +5,7 @@ import DateTime, { Props } from '.';
 export default {
   title: 'TechBlog/Molecules/DateTime',
   component: DateTime,
-};
+} as Meta;
 
 const Template: Story<Props> = (args) => <DateTime {...args} />;
 
