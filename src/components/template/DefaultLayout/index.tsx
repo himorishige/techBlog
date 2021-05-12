@@ -23,7 +23,7 @@ export default DefaultLayout;
 
 const DefaultWrapper = styled.main`
   width: 100%;
-  height: calc(100vh - 96px - 60px);
+  min-height: calc(100vh - 96px - 60px);
   max-width: 768px;
   margin: 0 auto;
   padding: 2rem;
