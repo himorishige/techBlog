@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as ReactRouterLink, LinkProps } from 'react-router-dom';
 import styled from 'styled-components';
 import { media } from 'src/styles/util';
 
@@ -6,7 +7,9 @@ const Header: React.VFC = () => {
   return (
     <StyledHeader>
       <StyledHeaderInner>
-        <StyledHeading>Tech Blog</StyledHeading>
+        <StyledHeading>
+          <StyledLink to="/">Tech Blog</StyledLink>
+        </StyledHeading>
       </StyledHeaderInner>
     </StyledHeader>
   );
@@ -35,5 +38,18 @@ const StyledHeading = styled.h1`
   font-weight: bold;
   ${media.phone} {
     font-size: 1.5rem;
+  }
+`;
+
+const Link: React.FC<LinkProps> = ({ children, ...props }) => {
+  return <ReactRouterLink {...props}>{children}</ReactRouterLink>;
+};
+
+const StyledLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  transition: opacity 0.3s linear;
+  &:hover {
+    opacity: 0.8;
   }
 `;
