@@ -7,13 +7,11 @@ const Router: React.VFC = () => {
   return (
     <Switch>
       <Route
-        path="/post"
+        path="/posts"
         render={({ match: { url } }) => (
           <Switch>
             <Route exact path={url} render={() => <Redirect to="/" />} />
-            <Route path={`${url}/detail`}>
-              <Detail />
-            </Route>
+            <Route path={`${url}/:id`} component={Detail} />
             <Route path={`${url}/*`}>
               <Page404 />
             </Route>

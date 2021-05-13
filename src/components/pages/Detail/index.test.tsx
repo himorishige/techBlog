@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState as useStateMock } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Detail from '.';
+
+import data from 'src/data/sampleData.json';
+
+jest.mock('react', () => ({
+  ...jest.requireActual('react'),
+  useState: jest.fn(),
+}));
 
 beforeEach(() => {
   render(
@@ -11,10 +18,15 @@ beforeEach(() => {
     </BrowserRouter>,
   );
 });
+
 afterEach(() => cleanup());
 
 describe('記事詳細ページ', () => {
   test('記事のタイトルが表示されている', () => {
+    const setPostData = jest.fn();
+    const setCount = jest.fn();
+    //@ts-ignore
+    useStateMock.mockImplementation((data: any) => [data, setPostData]);
     expect(screen.getByTestId('detail-title').textContent).toBeTruthy();
   });
   test('記事の最終更新日が表示されている', () => {

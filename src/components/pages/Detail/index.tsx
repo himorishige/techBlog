@@ -1,8 +1,17 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import {
+  LinkProps,
+  RouteComponentProps,
+  RouteProps,
+  RouterProps,
+  useParams,
+} from 'react-router-dom';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { NormalComponents, SpecialComponents } from 'react-markdown/src/ast-to-react';
+import { tomorrow } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 import { DefaultLayout } from 'src/components/template';
 import { DateTime } from 'src/components/molecules';
@@ -13,10 +22,45 @@ import { Margin, media } from 'src/styles/util';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
+import { useAppSelector, useAppDispatch } from 'src/app/hooks';
+
+import { Post } from 'src/types';
+
+import { putLikes, selectStatus } from 'src/features/posts/postsSlice';
+
+const components: Partial<NormalComponents & SpecialComponents> = {
+  code({ node, inline, className, children, ...props }) {
+    const match = /language-(\w+)/.exec(className || '');
+    return !inline && match ? (
+      <SyntaxHighlighter
+        style={tomorrow}
+        language={match[1]}
+        PreTag="div"
+        children={String(children).replace(/\n$/, '')}
+        {...props}
+      />
+    ) : (
+      <code className={className} {...props} />
+    );
+  },
+};
+
 const markdown = `A paragraph with *emphasis* and **strong importance**.  
 return
 
 # H1
+
+\`\`\`javascript
+var = test;
+const match = /language-(\w+)/.exec(className || '');
+console.log(test)
+\`\`\`
+
+~~~js:src/test.js
+var = test;
+const match = /language-(\w+)/.exec(className || '');
+console.log('It works!')
+~~~
 
 > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
 
@@ -30,37 +74,67 @@ A table:
 | - | - |
 `;
 
-const Detail: React.VFC = () => {
-  const [count, setCount] = useState(100);
+type Props = RouteComponentProps & {
+  match: {
+    params: {
+      id: string;
+    };
+  };
+};
 
-  const clickHandler = () => {
-    setCount((prev) => prev + 1);
+const Detail: React.VFC<Props> = (props) => {
+  const postId = Number(props.match.params.id);
+  const post = useAppSelector((state) => state.posts.posts.find((post) => post.id === postId));
+  const status = useAppSelector(selectStatus);
+  const dispatch = useAppDispatch();
+  const [popup, setPopup] = useState(false);
+
+  const clickHandler = async () => {
+    if (post && status === 'idle') {
+      await dispatch(putLikes(post));
+      setPopup(true);
+    }
   };
 
   return (
     <DefaultLayout>
-      <PostHeadWrapper>
-        <InfoArea>
-          <DateTime label="更新日：" />
-          <LikeWrapper>
-            <Margin right="1rem">
-              <LikeCount count={count} />
-            </Margin>
-            <Button data-testid="detail-likebutton" onClick={clickHandler}>
-              <FontAwesomeIcon icon={faHeart} /> いいね
-            </Button>
-          </LikeWrapper>
-        </InfoArea>
-        <TitleWrapper>
-          <Heading data-testid="detail-title">記事タイトル</Heading>
-        </TitleWrapper>
-      </PostHeadWrapper>
-      <BodyWrapper>
-        <div data-testid="detail-body">記事の本文</div>
-        <StyledMarkdown>
-          <ReactMarkdown remarkPlugins={[gfm]} children={markdown} className="markdown-body" />
-        </StyledMarkdown>
-      </BodyWrapper>
+      {post && (
+        <>
+          <PostHeadWrapper>
+            <InfoArea>
+              <DateTime label="更新日：" datetime={post.createdAt} />
+              <LikeWrapper>
+                <Margin right="1rem">
+                  <LikeCount count={post.like} popup={popup} setPopup={setPopup} />
+                </Margin>
+                <Button
+                  data-testid="detail-likebutton"
+                  onClick={clickHandler}
+                  disabled={status === 'loading'}
+                >
+                  <FontAwesomeIcon icon={faHeart} /> いいね
+                </Button>
+              </LikeWrapper>
+            </InfoArea>
+            <TitleWrapper>
+              <Heading size="large" data-testid="detail-title">
+                {post.title}
+              </Heading>
+            </TitleWrapper>
+          </PostHeadWrapper>
+          <BodyWrapper>
+            <div data-testid="detail-body">{post.body}</div>
+            <StyledMarkdown>
+              <ReactMarkdown
+                remarkPlugins={[gfm]}
+                components={components}
+                children={markdown}
+                className="markdown-body"
+              />
+            </StyledMarkdown>
+          </BodyWrapper>
+        </>
+      )}
     </DefaultLayout>
   );
 };
@@ -80,6 +154,7 @@ const LikeWrapper = styled.div`
 
 const TitleWrapper = styled.div`
   margin: 0 0 0.5rem;
+  padding: 1rem 0;
   border-bottom: 1px solid var(--primary-color);
 `;
 

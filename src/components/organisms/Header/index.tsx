@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link as ReactRouterLink, LinkProps } from 'react-router-dom';
+import { ReactComponent as HiIcon } from 'src/assets/hiIcon.svg';
 import styled from 'styled-components';
 import { media } from 'src/styles/util';
 
@@ -8,7 +9,10 @@ const Header: React.VFC = () => {
     <StyledHeader>
       <StyledHeaderInner>
         <StyledHeading>
-          <StyledLink to="/">Tech Blog</StyledLink>
+          <StyledLink to="/">
+            <StyledHiIcon />
+            Tech Blog
+          </StyledLink>
         </StyledHeading>
       </StyledHeaderInner>
     </StyledHeader>
@@ -29,7 +33,7 @@ const StyledHeaderInner = styled.div`
   margin: 0 auto;
   padding: 1rem 2rem;
   ${media.phone} {
-    padding: 0.75rem 2rem;
+    padding: 0.75rem 1rem;
   }
 `;
 
@@ -41,7 +45,7 @@ const StyledHeading = styled.h1`
   }
 `;
 
-const Link: React.FC<LinkProps> = ({ children, ...props }) => {
+const Link: React.VFC<LinkProps> = ({ children, ...props }) => {
   return <ReactRouterLink {...props}>{children}</ReactRouterLink>;
 };
 
@@ -49,7 +53,17 @@ const StyledLink = styled(Link)`
   color: white;
   text-decoration: none;
   transition: opacity 0.3s linear;
+  display: flex;
+  align-items: center;
   &:hover {
     opacity: 0.8;
   }
+`;
+
+const StyledHiIcon = styled(HiIcon)`
+  width: 2rem;
+  height: 2rem;
+  line-height: 2;
+  border: 1px solid white;
+  margin-right: 1rem;
 `;

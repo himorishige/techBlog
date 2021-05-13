@@ -43,6 +43,6 @@ const StyledButton = styled.button<Props>`
   }
   &:disabled {
     opacity: 0.8;
-    cursor: not-allowed;
+    cursor: progress;
   }
 `;
