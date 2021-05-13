@@ -8,6 +8,7 @@ export type Props = ButtonProps & {
   children: React.ReactNode;
   mainColor?: string;
   bgColor?: string;
+  borderColor?: string;
 };
 
 const Button: React.VFC<Props> = (props) => {
@@ -25,7 +26,7 @@ const StyledButton = styled.button<Props>`
   cursor: pointer;
   font-size: 1rem;
   padding: 0 1rem;
-  border: ${(props) => props.mainColor || 'var(--primary-color)'} 2px solid;
+  border: ${(props) => props.borderColor || 'var(--primary-color)'} 2px solid;
   color: ${(props) => props.mainColor || 'var(--primary-color)'};
   background-color: ${(props) => props.bgColor || 'white'};
   transition: background-color 0.5s, opacity 0.3s, color 0.3s;
@@ -37,6 +38,7 @@ const StyledButton = styled.button<Props>`
   &:hover {
     background-color: ${(props) => props.mainColor || 'var(--primary-color)'};
     color: ${(props) => props.bgColor || 'white'};
+    border: ${(props) => props.borderColor || 'var(--primary-color)'} 2px solid;
   }
   &:active {
     opacity: 0.8;

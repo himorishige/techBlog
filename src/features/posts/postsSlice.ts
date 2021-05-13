@@ -68,11 +68,11 @@ export const postsSlice = createSlice({
         state.posts = action.payload;
       })
       .addCase(putLikes.pending, (state) => {
-        state.status = 'loading';
+        // state.status = 'loading';
         state.message = '';
       })
       .addCase(putLikes.rejected, (state, action) => {
-        state.status = 'failed';
+        // state.status = 'failed';
         if (action.error.message) {
           state.message = action.error.message;
         }
@@ -90,6 +90,10 @@ export const postsSlice = createSlice({
 export const { addLikes } = postsSlice.actions;
 
 export const selectPosts = (state: RootState) => state.posts.posts;
+export const selectPost = (id: number) => {
+  const post = (state: RootState) => state.posts.posts.find((post) => post.id === id);
+  return post;
+};
 export const selectStatus = (state: RootState) => state.posts.status;
 export const selectMessage = (state: RootState) => state.posts.message;
 

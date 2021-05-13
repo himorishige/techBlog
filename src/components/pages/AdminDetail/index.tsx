@@ -7,14 +7,15 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { NormalComponents, SpecialComponents } from 'react-markdown/src/ast-to-react';
 import { tomorrow } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
-import { DefaultLayout } from 'src/components/template';
+import { AdminLayout } from 'src/components/template';
 import { DateTime } from 'src/components/molecules';
 import { Button, Heading } from 'src/components/atoms';
 import { LikeCount } from 'src/components/molecules';
 import { Margin, media } from 'src/styles/util';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { useAppSelector, useAppDispatch } from 'src/app/hooks';
 
@@ -74,7 +75,7 @@ type Props = RouteComponentProps & {
   };
 };
 
-const Detail: React.VFC<Props> = (props) => {
+const AdminDetail: React.VFC<Props> = (props) => {
   const postId = Number(props.match.params.id);
   // const post = useAppSelector((state) => state.posts.posts.find((post) => post.id === postId));
   const status = useAppSelector(selectStatus);
@@ -93,8 +94,16 @@ const Detail: React.VFC<Props> = (props) => {
     }
   };
 
+  const editHandler = async () => {
+    console.log('edit');
+  };
+
+  const deleteHandler = async () => {
+    console.log('delete');
+  };
+
   return (
-    <DefaultLayout>
+    <AdminLayout>
       {post && (
         <>
           <PostHeadWrapper>
@@ -108,8 +117,19 @@ const Detail: React.VFC<Props> = (props) => {
                 <Margin right="1rem">
                   <LikeCount count={post.like} popup={popup} setPopup={setPopup} />
                 </Margin>
-                <Button data-testid="detail-likebutton" onClick={clickHandler} disabled={disabled}>
-                  <FontAwesomeIcon icon={faHeart} /> いいね
+                <Margin right="1rem">
+                  <Button data-testid="detail-editbutton" onClick={editHandler} disabled={disabled}>
+                    <FontAwesomeIcon icon={faPencilAlt} /> 編集
+                  </Button>
+                </Margin>
+                <Button
+                  data-testid="detail-deletebutton"
+                  borderColor="firebrick"
+                  mainColor="firebrick"
+                  onClick={deleteHandler}
+                  disabled={disabled}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} /> 削除
                 </Button>
               </LikeWrapper>
             </InfoArea>
@@ -132,11 +152,11 @@ const Detail: React.VFC<Props> = (props) => {
           </BodyWrapper>
         </>
       )}
-    </DefaultLayout>
+    </AdminLayout>
   );
 };
 
-export default Detail;
+export default AdminDetail;
 
 const PostHeadWrapper = styled.div`
   display: flex;
