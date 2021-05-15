@@ -6,6 +6,7 @@ type HeadingType = React.HTMLAttributes<HTMLHeadingElement>;
 
 export type Props = HeadingType & {
   children: React.ReactNode;
+  size?: 'large' | 'medium' | `small`;
 };
 
 const Heading: React.VFC<Props> = (props) => {
@@ -17,8 +18,14 @@ const Heading: React.VFC<Props> = (props) => {
 export default Heading;
 
 const StyledHeading = styled.h2<Props>`
-  font-size: 2rem;
+  line-height: 1.5;
+  font-weight: bold;
+  ${(props) => props.size === 'large' && 'font-size: 1.75rem;'}
+  ${(props) => props.size === 'medium' && 'font-size: 1.5rem;'}
+  ${(props) => props.size === 'small' && 'font-size: 1.25rem;'}
   ${media.phone} {
-    font-size: 1.5rem;
+    ${(props) => props.size === 'large' && 'font-size: 1.25rem;'}
+    ${(props) => props.size === 'medium' && 'font-size: 1.15rem;'}
+    ${(props) => props.size === 'small' && 'font-size: 1rem;'}
   }
 `;

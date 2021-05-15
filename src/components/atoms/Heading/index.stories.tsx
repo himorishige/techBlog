@@ -12,4 +12,5 @@ const Template: Story<Props> = (args) => <Heading {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   children: 'ブログ記事のタイトル',
+  size: 'large',
 };

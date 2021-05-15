@@ -1,25 +1,49 @@
 import React from 'react';
-import { Link as ReactRouterLink, LinkProps } from 'react-router-dom';
+import { Link as ReactRouterLink, LinkProps, useRouteMatch } from 'react-router-dom';
 import { ReactComponent as HiIcon } from 'src/assets/hiIcon.svg';
 import styled from 'styled-components';
 import { media } from 'src/styles/util';
 
-const Header: React.VFC = () => {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-regular-svg-icons';
+import { Button } from 'src/components/atoms';
+
+type Props = {
+  newPostHandler: () => void;
+  disabled?: boolean;
+};
+
+const AdminHeader: React.VFC<Props> = ({ newPostHandler, disabled = false }) => {
+  const match = useRouteMatch('/admin/posts/new');
+
   return (
     <StyledHeader>
       <StyledHeaderInner>
         <StyledHeading>
-          <StyledLink to="/">
+          <StyledLink to="/admin">
             <StyledHiIcon />
-            Tech Blog
+            Tech Blog Dashboard
           </StyledLink>
         </StyledHeading>
+        <div>
+          {!match && (
+            <Button
+              onClick={newPostHandler}
+              borderColor="white"
+              bgColor="var(--primary-color)"
+              mainColor="white"
+              disabled={disabled}
+            >
+              <FontAwesomeIcon icon={faEdit} /> 新規作成
+            </Button>
+          )}
+        </div>
       </StyledHeaderInner>
     </StyledHeader>
   );
 };
 
-export default Header;
+export default AdminHeader;
 
 const StyledHeader = styled.header`
   width: 100%;
@@ -28,6 +52,9 @@ const StyledHeader = styled.header`
 `;
 
 const StyledHeaderInner = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   max-width: 768px;
   margin: 0 auto;

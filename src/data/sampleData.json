@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "createdAt": 1620804168398,
+    "updatedAt": 1620804168398,
+    "title": "create-react-app直後にやる環境構築の備忘録",
+    "body": "本文テキスト",
+    "image": "/assets/images/dummy01.jpeg",
+    "like": 101
+  },
+  {
+    "id": 2,
+    "createdAt": 1620804168398,
+    "updatedAt": 1620804168398,
+    "title": "Reactを使ったお天気アプリを作成してみた",
+    "body": "本文テキスト2",
+    "image": "/assets/images/dummy02.png",
+    "like": 105
+  }
+]
