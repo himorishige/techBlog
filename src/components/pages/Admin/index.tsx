@@ -1,56 +1,60 @@
 import React from 'react';
 import { AdminLayout } from 'src/components/template';
 
-import { useAppSelector, useAppDispatch } from 'src/app/hooks';
-import { selectPosts } from 'src/features/posts/postsSlice';
+import { useAppSelector } from 'src/app/hooks';
+import { selectPosts } from 'src/features/posts/postsEntitySlice';
 import { DateTime } from 'src/components/molecules';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
+
 const Admin: React.VFC = () => {
-  const posts = useAppSelector(selectPosts);
+  const posts = useAppSelector(selectPosts.selectAll);
 
   return (
     <AdminLayout>
-      <h1>Admin</h1>
       <StyledTable>
-        <StyledTr1st>
-          <StyledTh></StyledTh>
-          <StyledTh>ID</StyledTh>
-          <StyledTh>タイトル</StyledTh>
-          <StyledTh>公開日</StyledTh>
-          <StyledTh>更新日</StyledTh>
-          <StyledTh>いいね</StyledTh>
-        </StyledTr1st>
-        {posts &&
-          posts.map((post) => {
-            return (
-              <StyledTr key={post.id}>
-                <StyledTd>
-                  <input type="checkbox" />
-                </StyledTd>
-                <StyledTd>
-                  <Center>{post.id}</Center>
-                </StyledTd>
-                <StyledTd>
-                  <StyledLink to={`/admin/${post.id}`}>{post.title}</StyledLink>
-                </StyledTd>
-                <StyledTd>
-                  <Center>
-                    <DateTime datetime={post.createdAt} />
-                  </Center>
-                </StyledTd>
-                <StyledTd>
-                  <Center>
-                    <DateTime datetime={post.updatedAt} />
-                  </Center>
-                </StyledTd>
-                <StyledTd>
-                  <Center>{post.like}</Center>
-                </StyledTd>
-              </StyledTr>
-            );
-          })}
+        <thead>
+          <StyledThead>
+            <StyledTh></StyledTh>
+            <StyledTh>ID</StyledTh>
+            <StyledTh>タイトル</StyledTh>
+            <StyledTh>公開日</StyledTh>
+            <StyledTh>更新日</StyledTh>
+            <StyledTh>いいね</StyledTh>
+          </StyledThead>
+        </thead>
+        <tbody>
+          {posts &&
+            posts.map((post) => {
+              return (
+                <StyledTr key={post.id}>
+                  <StyledTd>{post.publish && <FontAwesomeIcon icon={faUpload} />}</StyledTd>
+                  <StyledTd>
+                    <Center>{post.id}</Center>
+                  </StyledTd>
+                  <StyledTd>
+                    <StyledLink to={`/admin/posts/${post.id}`}>{post.title}</StyledLink>
+                  </StyledTd>
+                  <StyledTd>
+                    <Center>
+                      <DateTime datetime={post.createdAt} />
+                    </Center>
+                  </StyledTd>
+                  <StyledTd>
+                    <Center>
+                      <DateTime datetime={post.updatedAt} />
+                    </Center>
+                  </StyledTd>
+                  <StyledTd>
+                    <Center>{post.like}</Center>
+                  </StyledTd>
+                </StyledTr>
+              );
+            })}
+        </tbody>
       </StyledTable>
     </AdminLayout>
   );
@@ -72,7 +76,7 @@ const StyledTr = styled.tr`
   }
 `;
 
-const StyledTr1st = styled(StyledTr)`
+const StyledThead = styled(StyledTr)`
   border-bottom: 1px solid var(--primary-color);
 `;
 

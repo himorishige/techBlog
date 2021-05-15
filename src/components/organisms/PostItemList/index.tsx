@@ -2,8 +2,6 @@ import React from 'react';
 import { PostItem } from 'src/components/molecules';
 import styled from 'styled-components';
 
-import data from 'src/data/sampleData.json';
-
 import { Posts } from 'src/types';
 import { media } from 'src/styles/util';
 
@@ -14,9 +12,11 @@ type Props = {
 const PostItemList: React.VFC<Props> = ({ posts }) => {
   return (
     <PostItemWrapper>
-      {posts.map((post) => (
-        <PostItem key={post.id} post={post} />
-      ))}
+      {posts
+        .filter((post) => post.publish === true)
+        .map((post) => (
+          <PostItem key={post.id} post={post} />
+        ))}
     </PostItemWrapper>
   );
 };

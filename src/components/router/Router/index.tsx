@@ -1,7 +1,15 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import { Detail, Page404, Home, Admin, AdminDetail } from 'src/components/pages';
+import {
+  Detail,
+  Page404,
+  Home,
+  Admin,
+  AdminDetail,
+  AdminEdit,
+  AdminNewPost,
+} from 'src/components/pages';
 
 const Router: React.VFC = () => {
   return (
@@ -23,7 +31,9 @@ const Router: React.VFC = () => {
         render={({ match: { url } }) => (
           <Switch>
             <Route exact path={url} component={Admin} />
-            <Route path={`${url}/:id`} component={AdminDetail} />
+            <Route exact path={`${url}/posts/new`} component={AdminNewPost} />
+            <Route path={`${url}/posts/:id/edit`} component={AdminEdit} />
+            <Route path={`${url}/posts/:id`} component={AdminDetail} />
             <Route path={`${url}/*`} component={Page404} />
           </Switch>
         )}

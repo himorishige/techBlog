@@ -62,6 +62,7 @@ const PostListWrapper = styled.div`
 `;
 
 const PostInfoWrapper = styled.div`
+  width: 100%;
   max-width: calc(100% - 180px);
   height: 100%;
   padding: 1rem;

@@ -6,6 +6,7 @@ export type Post = {
   body: string;
   image: string;
   like: number;
+  publish: boolean;
 };
 
 export type Posts = Post[];

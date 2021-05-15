@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as ReactRouterLink, LinkProps } from 'react-router-dom';
+import { Link as ReactRouterLink, LinkProps, useRouteMatch } from 'react-router-dom';
 import { ReactComponent as HiIcon } from 'src/assets/hiIcon.svg';
 import styled from 'styled-components';
 import { media } from 'src/styles/util';
@@ -9,11 +9,13 @@ import { faEdit } from '@fortawesome/free-regular-svg-icons';
 import { Button } from 'src/components/atoms';
 
 type Props = {
-  newPostHandler: () => Promise<void>;
+  newPostHandler: () => void;
   disabled?: boolean;
 };
 
 const AdminHeader: React.VFC<Props> = ({ newPostHandler, disabled = false }) => {
+  const match = useRouteMatch('/admin/posts/new');
+
   return (
     <StyledHeader>
       <StyledHeaderInner>
@@ -24,15 +26,17 @@ const AdminHeader: React.VFC<Props> = ({ newPostHandler, disabled = false }) => 
           </StyledLink>
         </StyledHeading>
         <div>
-          <Button
-            onClick={newPostHandler}
-            borderColor="white"
-            bgColor="var(--primary-color)"
-            mainColor="white"
-            disabled={disabled}
-          >
-            <FontAwesomeIcon icon={faEdit} /> 新規作成
-          </Button>
+          {!match && (
+            <Button
+              onClick={newPostHandler}
+              borderColor="white"
+              bgColor="var(--primary-color)"
+              mainColor="white"
+              disabled={disabled}
+            >
+              <FontAwesomeIcon icon={faEdit} /> 新規作成
+            </Button>
+          )}
         </div>
       </StyledHeaderInner>
     </StyledHeader>

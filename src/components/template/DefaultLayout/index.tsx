@@ -6,11 +6,13 @@ import styled from 'styled-components';
 
 import { useAppSelector, useAppDispatch } from 'src/app/hooks';
 import {
-  fetchPosts,
+  fetchEntityPosts,
   selectPosts,
   selectMessage,
   selectStatus,
-} from 'src/features/posts/postsSlice';
+} from 'src/features/posts/postsEntitySlice';
+import { Spinner } from 'src/components/molecules';
+import ErrorMessage from 'src/components/molecules/ErrorMessage';
 
 type Props = {
   children: React.ReactNode;
@@ -18,14 +20,14 @@ type Props = {
 
 const DefaultLayout: React.VFC<Props> = (props) => {
   const { children } = props;
-  const posts = useAppSelector(selectPosts);
+  const posts = useAppSelector(selectPosts.selectAll);
   const status = useAppSelector(selectStatus);
   const errorMessage = useAppSelector(selectMessage);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!posts.length) {
-      dispatch(fetchPosts());
+      dispatch(fetchEntityPosts());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -35,9 +37,9 @@ const DefaultLayout: React.VFC<Props> = (props) => {
       <Header />
       <DefaultWrapper>
         {errorMessage ? (
-          <div>{errorMessage}</div>
+          <ErrorMessage>{errorMessage}</ErrorMessage>
         ) : status === 'loading' ? (
-          <div>loading...</div>
+          <Spinner />
         ) : (
           children
         )}
