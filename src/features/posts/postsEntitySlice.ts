@@ -15,8 +15,13 @@ export type PostsState = {
   message: string;
 };
 
+/**
+ * entity用のアダプターを生成
+ */
+
 const postsAdapter = createEntityAdapter<Post>();
 const postInitialEntityState = postsAdapter.getInitialState({
+  // 型以外に設定したいものはここで用意
   status: 'idle',
   message: '',
 });
@@ -29,7 +34,7 @@ const URL = process.env.REACT_APP_JSON_SERVER_URL || 'http://localhost:3000';
 
 export const fetchEntityPosts = createAsyncThunk('posts/fetchEntityPosts', async (_, thunkApi) => {
   const response = await axios.get<Posts>(`${URL}/posts`).catch((err) => {
-    thunkApi.rejectWithValue(err);
+    thunkApi.rejectWithValue(err); // thunkApiを利用してエラーメッセージなどをreducerにわたすことができる
     throw err;
   });
   return response.data;
@@ -131,17 +136,21 @@ export const postsEntitySlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchEntityPosts.pending, (state) => {
+        // ローディング中
         state.status = 'loading';
         state.message = '';
       })
       .addCase(fetchEntityPosts.rejected, (state, action) => {
+        // 失敗
         state.status = 'failed';
         if (action.error.message) {
           state.message = action.error.message;
         }
       })
       .addCase(fetchEntityPosts.fulfilled, (state, action) => {
+        // 成功
         state.status = 'idle';
+        // 取得した投稿全件をstoreに登録
         postsAdapter.setAll(state, action.payload);
       })
       .addCase(addEntityPost.pending, (state) => {
@@ -156,6 +165,7 @@ export const postsEntitySlice = createSlice({
       })
       .addCase(addEntityPost.fulfilled, (state, action) => {
         state.status = 'idle';
+        // 1件をstoreに新規登録
         postsAdapter.addOne(state, action.payload);
       })
       .addCase(updateEntityPost.pending, (state) => {
@@ -171,6 +181,7 @@ export const postsEntitySlice = createSlice({
       .addCase(updateEntityPost.fulfilled, (state, action: PayloadAction<Post>) => {
         state.status = 'idle';
         const { id, ...updateData } = action.payload;
+        // 1件をidで指定して更新
         postsAdapter.updateOne(state, {
           id: id,
           changes: { ...updateData },
@@ -191,28 +202,25 @@ export const postsEntitySlice = createSlice({
         postsAdapter.removeOne(state, action.payload.postId);
       })
       .addCase(putLikes.pending, (state) => {
-        // state.status = 'loading';
         state.message = '';
       })
       .addCase(putLikes.rejected, (state, action) => {
-        // state.status = 'failed';
         if (action.error.message) {
           state.message = action.error.message;
         }
       })
       .addCase(putLikes.fulfilled, (state, action: PayloadAction<{ id: string; like: number }>) => {
         state.status = 'idle';
+        // 1件のlikeという項目のみ更新
         postsAdapter.updateOne(state, {
           id: action.payload.id,
           changes: { like: action.payload.like },
         });
       })
       .addCase(togglePublish.pending, (state) => {
-        // state.status = 'loading';
         state.message = '';
       })
       .addCase(togglePublish.rejected, (state, action) => {
-        // state.status = 'failed';
         if (action.error.message) {
           state.message = action.error.message;
         }
@@ -220,6 +228,7 @@ export const postsEntitySlice = createSlice({
       .addCase(
         togglePublish.fulfilled,
         (state, action: PayloadAction<{ id: string; publish: boolean }>) => {
+          // 1件のpublishという項目のみ更新
           state.status = 'idle';
           postsAdapter.updateOne(state, {
             id: action.payload.id,
@@ -232,7 +241,9 @@ export const postsEntitySlice = createSlice({
 
 export default postsEntitySlice.reducer;
 
+// 全件取得用のselector
 export const selectPosts = postsAdapter.getSelectors<RootState>((state) => state.postsEntity);
 
+// 単一項目取得用のselector
 export const selectStatus = (state: RootState) => state.postsEntity.status;
 export const selectMessage = (state: RootState) => state.postsEntity.message;
