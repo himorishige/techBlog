@@ -71,7 +71,7 @@ export const updateEntityPost = createAsyncThunk(
 
 export const deleteEntityPost = createAsyncThunk(
   'posts/deleteEntityPost',
-  async (postId: number, thunkApi) => {
+  async (postId: string, thunkApi) => {
     const response = await axios
       .delete<Post>(`${URL}/posts/${postId}`, {
         data: { id: postId },
@@ -200,7 +200,7 @@ export const postsEntitySlice = createSlice({
           state.message = action.error.message;
         }
       })
-      .addCase(putLikes.fulfilled, (state, action: PayloadAction<{ id: number; like: number }>) => {
+      .addCase(putLikes.fulfilled, (state, action: PayloadAction<{ id: string; like: number }>) => {
         state.status = 'idle';
         postsAdapter.updateOne(state, {
           id: action.payload.id,
@@ -219,7 +219,7 @@ export const postsEntitySlice = createSlice({
       })
       .addCase(
         togglePublish.fulfilled,
-        (state, action: PayloadAction<{ id: number; publish: boolean }>) => {
+        (state, action: PayloadAction<{ id: string; publish: boolean }>) => {
           state.status = 'idle';
           postsAdapter.updateOne(state, {
             id: action.payload.id,
