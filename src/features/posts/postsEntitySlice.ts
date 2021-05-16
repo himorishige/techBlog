@@ -31,7 +31,7 @@ const postsAdapter = createEntityAdapter<Post>({
   },
 });
 
-const postInitialEntityState = postsAdapter.getInitialState({
+export const postInitialEntityState = postsAdapter.getInitialState({
   // 型以外に設定したいものはここで用意
   status: 'idle',
   message: '',
