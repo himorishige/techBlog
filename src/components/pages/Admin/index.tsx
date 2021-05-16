@@ -45,7 +45,7 @@ const Admin: React.VFC = () => {
                   </StyledTd>
                   <StyledTd>
                     <Center>
-                      <DateTime datetime={post.updatedAt} />
+                      {post.updatedAt && <DateTime update datetime={post.updatedAt} />}
                     </Center>
                   </StyledTd>
                   <StyledTd>

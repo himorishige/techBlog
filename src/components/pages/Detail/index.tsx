@@ -16,7 +16,7 @@ type Props = RouteComponentProps & {
 };
 
 const Detail: React.VFC<Props> = (props) => {
-  const postId = props.match.params.id;
+  const postId = Number(props.match.params.id);
   const status = useAppSelector(selectStatus);
   const post = useAppSelector((state) => selectPosts.selectById(state, postId));
   const dispatch = useAppDispatch();

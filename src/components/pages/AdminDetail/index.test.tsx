@@ -1,8 +1,10 @@
 import React, { useState as useStateMock } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Detail from '.';
+import AdminDetail from '.';
+import { store } from 'src/app/store';
+import { Provider } from 'react-redux';
 
 import data from 'src/data/sampleData.json';
 
@@ -13,9 +15,11 @@ jest.mock('react', () => ({
 
 beforeEach(() => {
   render(
-    <BrowserRouter>
-      <Detail />
-    </BrowserRouter>,
+    <Provider store={store}>
+      <BrowserRouter>
+        <Route component={AdminDetail} />
+      </BrowserRouter>
+    </Provider>,
   );
 });
 
@@ -23,6 +27,7 @@ afterEach(() => cleanup());
 
 describe('記事詳細ページ', () => {
   test('記事のタイトルが表示されている', () => {
+    screen.debug();
     const setPostData = jest.fn();
     const setCount = jest.fn();
     //@ts-ignore

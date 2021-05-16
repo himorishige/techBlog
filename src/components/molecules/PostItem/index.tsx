@@ -18,11 +18,10 @@ const PostItem: React.VFC<Props> = ({ post }) => {
       <PostListWrapper>
         <PostInfoWrapper>
           <StyledDiv>
-            {post.updatedAt ? (
-              <DateTime label="更新日：" datetime={post.updatedAt} />
-            ) : (
-              <DateTime label="公開日：" datetime={post.createdAt} />
-            )}
+            <DateTime
+              update={!!post.updatedAt}
+              datetime={post.updatedAt ? post.updatedAt : post.createdAt}
+            />
             <LikeCount count={post.like} />
           </StyledDiv>
           <StyledHeading size="medium">{post.title}</StyledHeading>

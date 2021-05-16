@@ -27,6 +27,10 @@ const AdminNewPost: React.VFC = (props) => {
   };
 
   const addHandler = async (isPublish: boolean) => {
+    if (title === '') {
+      alert('タイトルが未入力です。');
+      return;
+    }
     setDisabled(true);
     const post: Omit<Post, 'id'> = {
       createdAt: Date.now(),

@@ -38,6 +38,10 @@ const AdminEdit: React.VFC<Props> = (props) => {
   };
 
   const updateHandler = async () => {
+    if (title === '') {
+      alert('タイトルが未入力です。');
+      return;
+    }
     if (post && status === 'idle') {
       setDisabled(true);
       const postData: Post = {

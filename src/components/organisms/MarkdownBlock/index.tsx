@@ -44,11 +44,10 @@ const MarkdownBlock: React.VFC<Props> = (props) => {
     <>
       <PostHeadWrapper>
         <InfoArea>
-          {post.updatedAt ? (
-            <DateTime label="更新日：" datetime={post.updatedAt} />
-          ) : (
-            <DateTime label="公開日：" datetime={post.createdAt} />
-          )}
+          <DateTime
+            update={!!post.updatedAt}
+            datetime={post.updatedAt ? post.updatedAt : post.createdAt}
+          />
           {isAdmin ? (
             <LikeWrapper>
               <Margin right="1rem">
