@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { AdminHeader, Footer } from 'src/components/organisms';
 import { media } from 'src/styles/util';
 
@@ -22,7 +22,7 @@ type Props = {
   layout?: 'wide' | 'narrow';
 };
 
-const AdminLayout: React.VFC<Props> = (props) => {
+const AdminLayout: React.VFC<Props> = memo((props) => {
   const { children, layout = 'narrow' } = props;
   const posts = useAppSelector(selectPosts.selectAll);
   const status = useAppSelector(selectStatus);
@@ -67,7 +67,7 @@ const AdminLayout: React.VFC<Props> = (props) => {
       <Footer />
     </>
   );
-};
+});
 
 export default AdminLayout;
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { PostItem } from 'src/components/molecules';
 import styled from 'styled-components';
 
@@ -9,7 +9,7 @@ type Props = {
   posts: Posts;
 };
 
-const PostItemList: React.VFC<Props> = ({ posts }) => {
+const PostItemList: React.VFC<Props> = memo(({ posts }) => {
   return (
     <PostItemWrapper>
       {posts
@@ -19,7 +19,7 @@ const PostItemList: React.VFC<Props> = ({ posts }) => {
         ))}
     </PostItemWrapper>
   );
-};
+});
 
 export default PostItemList;
 

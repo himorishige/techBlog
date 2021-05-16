@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { DefaultLayout } from 'src/components/template';
@@ -15,7 +15,7 @@ type Props = RouteComponentProps & {
   };
 };
 
-const Detail: React.VFC<Props> = (props) => {
+const Detail: React.VFC<Props> = memo((props) => {
   const postId = Number(props.match.params.id);
   const status = useAppSelector(selectStatus);
   const post = useAppSelector((state) => selectPosts.selectById(state, postId));
@@ -23,14 +23,14 @@ const Detail: React.VFC<Props> = (props) => {
   const [disabled, setDisabled] = useState(false);
   const [popup, setPopup] = useState(false);
 
-  const clickHandler = async () => {
+  const clickHandler = useCallback(async () => {
     if (post && status === 'idle') {
       setDisabled(true);
       await dispatch(putLikes(post));
       setPopup(true);
       setDisabled(false);
     }
-  };
+  }, [dispatch, post, status]);
 
   return (
     <DefaultLayout>
@@ -47,6 +47,6 @@ const Detail: React.VFC<Props> = (props) => {
       )}
     </DefaultLayout>
   );
-};
+});
 
 export default Detail;

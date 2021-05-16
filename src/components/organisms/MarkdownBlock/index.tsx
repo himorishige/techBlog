@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, memo } from 'react';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
@@ -27,7 +27,7 @@ type Props = {
   setPopup?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const MarkdownBlock: React.VFC<Props> = (props) => {
+const MarkdownBlock: React.VFC<Props> = memo((props) => {
   const {
     clickHandler,
     editHandler,
@@ -123,7 +123,7 @@ const MarkdownBlock: React.VFC<Props> = (props) => {
       </BodyWrapper>
     </>
   );
-};
+});
 
 export default MarkdownBlock;
 
