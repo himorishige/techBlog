@@ -281,6 +281,7 @@ export const StyledMarkdown = styled.div`
     padding-left: 0;
     margin-top: 0;
     margin-bottom: 0;
+    list-style-type: disc;
   }
 
   .markdown-body ol ol,

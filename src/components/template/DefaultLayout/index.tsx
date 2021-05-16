@@ -11,6 +11,7 @@ import {
   selectMessage,
   selectStatus,
 } from 'src/features/posts/postsEntitySlice';
+import { useToast } from 'src/hooks/useToast';
 import { Spinner } from 'src/components/molecules';
 import ErrorMessage from 'src/components/molecules/ErrorMessage';
 
@@ -24,10 +25,17 @@ const DefaultLayout: React.VFC<Props> = (props) => {
   const status = useAppSelector(selectStatus);
   const errorMessage = useAppSelector(selectMessage);
   const dispatch = useAppDispatch();
+  const { showToast } = useToast();
 
   useEffect(() => {
     if (!posts.length) {
-      dispatch(fetchEntityPosts());
+      (async () => {
+        const resultAction = await dispatch(fetchEntityPosts());
+        console.log('fetch');
+        if (fetchEntityPosts.rejected.match(resultAction)) {
+          showToast('FAIL', 'データの取得に失敗しました。');
+        }
+      })();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

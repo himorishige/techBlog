@@ -50,7 +50,11 @@ const AdminLayout: React.VFC<Props> = (props) => {
 
   return (
     <>
-      <AdminHeader newPostHandler={newPostHandler} disabled={status === 'loading'} />
+      <AdminHeader
+        layout={layout}
+        newPostHandler={newPostHandler}
+        disabled={status === 'loading'}
+      />
       <DefaultWrapper layout={layout}>
         {errorMessage ? (
           <ErrorMessage>{errorMessage}</ErrorMessage>
@@ -67,7 +71,7 @@ const AdminLayout: React.VFC<Props> = (props) => {
 
 export default AdminLayout;
 
-const DefaultWrapper = styled.main<{ layout: string }>`
+const DefaultWrapper = styled.main<{ layout: 'wide' | 'narrow' }>`
   width: 100%;
   min-height: calc(100vh - 96px - 60px);
   max-width: ${(props) => (props.layout === 'wide' ? '100%' : '768px')};

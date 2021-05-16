@@ -157,7 +157,7 @@ const StyledInput = styled.input`
 
 const StyledWrapper = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: calc(50% - 1rem) calc(50% - 1rem);
   grid-gap: 2rem;
 `;
 
@@ -170,7 +170,7 @@ const StyledTextArea = styled.textarea`
   height: 80vh;
   border: 1px solid var(--primary-color);
   resize: none;
-  overflow-y: scroll;
+  overflow: auto;
   padding: 1rem;
   font-size: 1rem;
 `;
@@ -183,4 +183,5 @@ const StyledMarkdown = styled(_StyledMarkdown)`
   border: 1px solid var(--primary-color);
   height: 80vh;
   padding: 1rem;
+  overflow: auto;
 `;

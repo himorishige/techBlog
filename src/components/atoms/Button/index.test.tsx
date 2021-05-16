@@ -17,7 +17,7 @@ describe('atoms/Button', () => {
       )
       .toJSON();
     expect(tree).toHaveStyleRule('color', 'white');
-    expect(tree).toHaveStyleRule('border', 'white 2px solid');
+    expect(tree).toHaveStyleRule('border', 'var(--primary-color) 2px solid');
     expect(tree).toHaveStyleRule('background-color', 'blue');
   });
   test('mainColor、bgColorを渡した場合に反映されている（記述違い）', () => {
@@ -27,7 +27,7 @@ describe('atoms/Button', () => {
       </Button>,
     );
     expect(screen.getByRole('button')).toHaveStyleRule('color', 'white');
-    expect(screen.getByRole('button')).toHaveStyleRule('border', 'white 2px solid');
+    expect(screen.getByRole('button')).toHaveStyleRule('border', 'var(--primary-color) 2px solid');
     expect(screen.getByRole('button')).toHaveStyleRule('background-color', 'blue');
   });
   test('disableを渡した場合に反映されている', () => {

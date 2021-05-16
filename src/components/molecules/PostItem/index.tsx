@@ -18,11 +18,10 @@ const PostItem: React.VFC<Props> = ({ post }) => {
       <PostListWrapper>
         <PostInfoWrapper>
           <StyledDiv>
-            {post.updatedAt ? (
-              <DateTime label="更新日：" datetime={post.updatedAt} />
-            ) : (
-              <DateTime label="公開日：" datetime={post.createdAt} />
-            )}
+            <DateTime
+              update={!!post.updatedAt}
+              datetime={post.updatedAt ? post.updatedAt : post.createdAt}
+            />
             <LikeCount count={post.like} />
           </StyledDiv>
           <StyledHeading size="medium">{post.title}</StyledHeading>
@@ -80,7 +79,7 @@ const StyledHeading = styled(Heading)`
   max-width: 100%;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   margin: 0.5rem 0;
   ${media.phone} {
     font-size: 1rem;

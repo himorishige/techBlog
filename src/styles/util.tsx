@@ -13,6 +13,7 @@ type Props = {
   right?: string | number;
   bottom?: string | number;
   left?: string | number;
+  inline?: boolean;
 };
 
 export const Padding = styled.div<Props>`
@@ -34,6 +35,7 @@ export const Margin = styled.div<Props>`
   margin-right: ${(props) => props.right};
   margin-bottom: ${(props) => props.bottom};
   margin-left: ${(props) => props.left};
+  ${(props) => (props.inline ? 'display: inline-block;' : 'display: block;')}
 `;
 
 Margin.defaultProps = {

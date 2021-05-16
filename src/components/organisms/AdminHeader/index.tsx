@@ -11,14 +11,15 @@ import { Button } from 'src/components/atoms';
 type Props = {
   newPostHandler: () => void;
   disabled?: boolean;
+  layout?: 'wide' | 'narrow';
 };
 
-const AdminHeader: React.VFC<Props> = ({ newPostHandler, disabled = false }) => {
+const AdminHeader: React.VFC<Props> = ({ newPostHandler, disabled = false, layout = 'narrow' }) => {
   const match = useRouteMatch('/admin/posts/new');
 
   return (
     <StyledHeader>
-      <StyledHeaderInner>
+      <StyledHeaderInner layout={layout}>
         <StyledHeading>
           <StyledLink to="/admin">
             <StyledHiIcon />
@@ -51,12 +52,12 @@ const StyledHeader = styled.header`
   color: #fff;
 `;
 
-const StyledHeaderInner = styled.div`
+const StyledHeaderInner = styled.div<{ layout: 'wide' | 'narrow' }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 768px;
+  max-width: ${(props) => (props.layout === 'wide' ? '100%' : '768px')};
   margin: 0 auto;
   padding: 1rem 2rem;
   ${media.phone} {
