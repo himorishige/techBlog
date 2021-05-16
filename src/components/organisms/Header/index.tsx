@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Link as ReactRouterLink, LinkProps } from 'react-router-dom';
 import { ReactComponent as HiIcon } from 'src/assets/hiIcon.svg';
 import styled from 'styled-components';
 import { media } from 'src/styles/util';
 
-const Header: React.VFC = () => {
+const Header: React.VFC = memo(() => {
   return (
     <StyledHeader>
       <StyledHeaderInner>
@@ -17,7 +17,7 @@ const Header: React.VFC = () => {
       </StyledHeaderInner>
     </StyledHeader>
   );
-};
+});
 
 export default Header;
 

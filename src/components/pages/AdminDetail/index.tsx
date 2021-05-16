@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 
 import { AdminLayout } from 'src/components/template';
@@ -23,7 +23,7 @@ type Props = RouteComponentProps & {
   };
 };
 
-const AdminDetail: React.VFC<Props> = (props) => {
+const AdminDetail: React.VFC<Props> = memo((props) => {
   const postId = Number(props.match.params.id);
   const status = useAppSelector(selectStatus);
   const post = useAppSelector((state) => selectPosts.selectById(state, postId));
@@ -33,20 +33,20 @@ const AdminDetail: React.VFC<Props> = (props) => {
   const history = useHistory();
   const { showToast } = useToast();
 
-  const clickHandler = async () => {
+  const clickHandler = useCallback(async () => {
     if (post && status === 'idle') {
       setDisabled(true);
       await dispatch(putLikes(post));
       setPopup(true);
       setDisabled(false);
     }
-  };
+  }, [dispatch, post, status]);
 
-  const editHandler = async () => {
+  const editHandler = useCallback(async () => {
     history.push(`/admin/posts/${postId}/edit`);
-  };
+  }, [history, postId]);
 
-  const publishToggleHandler = async () => {
+  const publishToggleHandler = useCallback(async () => {
     if (post && status === 'idle') {
       setDisabled(true);
       if (post.publish && window.confirm('非公開にしてもよいですか？')) {
@@ -59,9 +59,9 @@ const AdminDetail: React.VFC<Props> = (props) => {
       }
       setDisabled(false);
     }
-  };
+  }, [dispatch, post, showToast, status]);
 
-  const deleteHandler = async () => {
+  const deleteHandler = useCallback(async () => {
     if (post && status === 'idle' && window.confirm('投稿を削除してもよいですか？')) {
       setDisabled(true);
       const resultAction = await dispatch(deleteEntityPost(postId));
@@ -71,7 +71,7 @@ const AdminDetail: React.VFC<Props> = (props) => {
         history.push('/admin');
       }
     }
-  };
+  }, [dispatch, history, post, postId, showToast, status]);
 
   return (
     <AdminLayout>
@@ -92,6 +92,6 @@ const AdminDetail: React.VFC<Props> = (props) => {
       )}
     </AdminLayout>
   );
-};
+});
 
 export default AdminDetail;

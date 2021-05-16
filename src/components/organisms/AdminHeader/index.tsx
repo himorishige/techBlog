@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Link as ReactRouterLink, LinkProps, useRouteMatch } from 'react-router-dom';
 import { ReactComponent as HiIcon } from 'src/assets/hiIcon.svg';
 import styled from 'styled-components';
@@ -14,35 +14,37 @@ type Props = {
   layout?: 'wide' | 'narrow';
 };
 
-const AdminHeader: React.VFC<Props> = ({ newPostHandler, disabled = false, layout = 'narrow' }) => {
-  const match = useRouteMatch('/admin/posts/new');
+const AdminHeader: React.VFC<Props> = memo(
+  ({ newPostHandler, disabled = false, layout = 'narrow' }) => {
+    const match = useRouteMatch('/admin/posts/new');
 
-  return (
-    <StyledHeader>
-      <StyledHeaderInner layout={layout}>
-        <StyledHeading>
-          <StyledLink to="/admin">
-            <StyledHiIcon />
-            Tech Blog Dashboard
-          </StyledLink>
-        </StyledHeading>
-        <div>
-          {!match && (
-            <Button
-              onClick={newPostHandler}
-              borderColor="white"
-              bgColor="var(--primary-color)"
-              mainColor="white"
-              disabled={disabled}
-            >
-              <FontAwesomeIcon icon={faEdit} /> 新規作成
-            </Button>
-          )}
-        </div>
-      </StyledHeaderInner>
-    </StyledHeader>
-  );
-};
+    return (
+      <StyledHeader>
+        <StyledHeaderInner layout={layout}>
+          <StyledHeading>
+            <StyledLink to="/admin">
+              <StyledHiIcon />
+              Tech Blog Dashboard
+            </StyledLink>
+          </StyledHeading>
+          <div>
+            {!match && (
+              <Button
+                onClick={newPostHandler}
+                borderColor="white"
+                bgColor="var(--primary-color)"
+                mainColor="white"
+                disabled={disabled}
+              >
+                <FontAwesomeIcon icon={faEdit} /> 新規作成
+              </Button>
+            )}
+          </div>
+        </StyledHeaderInner>
+      </StyledHeader>
+    );
+  },
+);
 
 export default AdminHeader;
 

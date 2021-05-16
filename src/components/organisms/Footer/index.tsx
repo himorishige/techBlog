@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 
-const Footer: React.VFC = () => {
+const Footer: React.VFC = memo(() => {
   return <StyledFooter>copyright 2021 Hi.Morishige</StyledFooter>;
-};
+});
 
 export default Footer;
 

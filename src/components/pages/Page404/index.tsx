@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { DefaultLayout } from 'src/components/template';
 import styled from 'styled-components';
 
-const Page404: React.VFC = () => {
+const Page404: React.VFC = memo(() => {
   return (
     <DefaultLayout>
       <StyledDiv>
@@ -10,7 +10,7 @@ const Page404: React.VFC = () => {
       </StyledDiv>
     </DefaultLayout>
   );
-};
+});
 
 export default Page404;
 

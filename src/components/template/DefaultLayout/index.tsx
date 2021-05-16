@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Header, Footer } from 'src/components/organisms';
 import { media } from 'src/styles/util';
 
@@ -19,7 +19,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const DefaultLayout: React.VFC<Props> = (props) => {
+const DefaultLayout: React.VFC<Props> = memo((props) => {
   const { children } = props;
   const posts = useAppSelector(selectPosts.selectAll);
   const status = useAppSelector(selectStatus);
@@ -55,7 +55,7 @@ const DefaultLayout: React.VFC<Props> = (props) => {
       <Footer />
     </>
   );
-};
+});
 
 export default DefaultLayout;
 

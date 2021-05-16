@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, memo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AdminLayout } from 'src/components/template';
 
@@ -10,7 +10,7 @@ import { useToast } from 'src/hooks/useToast';
 
 import { MarkdownEditBlock } from 'src/components/organisms';
 
-const AdminNewPost: React.VFC = (props) => {
+const AdminNewPost: React.VFC = memo((props) => {
   const history = useHistory();
   const [markdown, setMarkdown] = useState('');
   const [title, setTitle] = useState('');
@@ -18,48 +18,51 @@ const AdminNewPost: React.VFC = (props) => {
   const dispatch = useAppDispatch();
   const { showToast } = useToast();
 
-  const inputTitleHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const inputTitleHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
-  };
+  }, []);
 
-  const inputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const inputHandler = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdown(e.target.value);
-  };
+  }, []);
 
-  const addHandler = async (isPublish: boolean) => {
-    if (title === '') {
-      alert('タイトルが未入力です。');
-      return;
-    }
-    setDisabled(true);
-    const post: Omit<Post, 'id'> = {
-      createdAt: Date.now(),
-      title: title,
-      body: markdown,
-      image: '/assets/images/dummy01.jpeg',
-      like: 0,
-      publish: isPublish,
-    };
-    const resultAction = await dispatch(addEntityPost(post));
-    setDisabled(false);
-
-    if (addEntityPost.fulfilled.match(resultAction)) {
-      if (isPublish) {
-        showToast('SUCCESS', '記事を公開しました。');
-      } else {
-        showToast('SUCCESS', '記事を下書き保存しました。');
+  const addHandler = useCallback(
+    async (isPublish: boolean) => {
+      if (title === '') {
+        alert('タイトルが未入力です。');
+        return;
       }
-      history.push('/admin');
-    }
-  };
+      setDisabled(true);
+      const post: Omit<Post, 'id'> = {
+        createdAt: Date.now(),
+        title: title,
+        body: markdown,
+        image: '/assets/images/dummy01.jpeg',
+        like: 0,
+        publish: isPublish,
+      };
+      const resultAction = await dispatch(addEntityPost(post));
+      setDisabled(false);
 
-  const cancelHandler = () => {
+      if (addEntityPost.fulfilled.match(resultAction)) {
+        if (isPublish) {
+          showToast('SUCCESS', '記事を公開しました。');
+        } else {
+          showToast('SUCCESS', '記事を下書き保存しました。');
+        }
+        history.push('/admin');
+      }
+    },
+    [dispatch, history, markdown, showToast, title],
+  );
+
+  const cancelHandler = useCallback(() => {
     if (window.confirm('編集内容をキャンセルしてもよいですか？')) {
       setTitle('');
       setMarkdown('');
       history.push('/admin');
     }
-  };
+  }, [history]);
 
   return (
     <>
@@ -77,6 +80,6 @@ const AdminNewPost: React.VFC = (props) => {
       </AdminLayout>
     </>
   );
-};
+});
 
 export default AdminNewPost;
