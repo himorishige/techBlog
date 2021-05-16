@@ -79,7 +79,7 @@ const StyledHeading = styled(Heading)`
   max-width: 100%;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   margin: 0.5rem 0;
   ${media.phone} {
     font-size: 1rem;
