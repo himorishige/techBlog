@@ -31,6 +31,11 @@ REACT_APP_JSON_SERVER_URL=http://localhost:3001 // JSON Serverの起動ポート
 
 開発モードでアプリケーションを起動します。
 
+#### 記事一覧ページ
+http://localhost:3000
+
+#### 管理画面
+http://localhost:3000/admin
 ### yarn storybook
 
 Storybookを起動します。
