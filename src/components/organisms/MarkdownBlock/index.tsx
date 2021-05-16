@@ -1,4 +1,4 @@
-import React, { useCallback, memo } from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
