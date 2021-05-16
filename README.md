@@ -1,6 +1,7 @@
 # テックブログ
 
-このプロジェクトはJSON Serverを使いRedux Toolkitを用いてデータを表示するブログアプリケーションのソースコードになります。
+このプロジェクトはJSON Serverを使いRedux Toolkitを用いてデータを表示するブログアプリケーションのソースコードになります。  
+動作にはReactの起動とともにJSON Serverも動作させる必要があります。
 
 ![スライド1](https://user-images.githubusercontent.com/71954454/118387059-ed52c780-b656-11eb-9b70-5dd6c304b624.png)
 ![スライド2](https://user-images.githubusercontent.com/71954454/118387063-f9d72000-b656-11eb-91f6-f79c4179f617.png)
@@ -16,7 +17,7 @@
 
 ## 初期設定
 
-動作に必要な設定について
+動作に必要な設定について  
 `.env`
 
 ```bash:.env
@@ -31,7 +32,7 @@ REACT_APP_JSON_SERVER_URL=http://localhost:3001 // JSON Serverの起動ポート
 
 ## 起動について
 
-## yarn json-server
+### yarn json-server
 
 JSON Serverを起動します。  
 http://localhost:3001/posts  
