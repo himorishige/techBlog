@@ -31,6 +31,12 @@ REACT_APP_JSON_SERVER_URL=http://localhost:3001 // JSON Serverの起動ポート
 
 ## 起動について
 
+## yarn json-server
+
+JSON Serverを起動します。  
+http://localhost:3001/posts  
+初期設定では2秒のディレイタイムを設定しています。
+
 ### yarn start
 
 開発モードでアプリケーションを起動します。
