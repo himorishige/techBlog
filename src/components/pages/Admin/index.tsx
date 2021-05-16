@@ -21,9 +21,9 @@ const Admin: React.VFC = () => {
             <StyledTh></StyledTh>
             <StyledTh>ID</StyledTh>
             <StyledTh>タイトル</StyledTh>
-            <StyledTh>公開日</StyledTh>
-            <StyledTh>更新日</StyledTh>
-            <StyledTh>いいね</StyledTh>
+            <StyledTh className="minWidth">公開日</StyledTh>
+            <StyledTh className="minWidth">更新日</StyledTh>
+            <StyledTh className="minWidth">いいね</StyledTh>
           </StyledThead>
         </thead>
         <tbody>
@@ -84,6 +84,9 @@ const StyledTh = styled.th`
   font-weight: bold;
   padding: 0.5rem 0;
   vertical-align: middle;
+  &.minWidth {
+    min-width: 5rem;
+  }
 `;
 
 const StyledTd = styled.td`
