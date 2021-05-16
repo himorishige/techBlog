@@ -106,8 +106,7 @@ export const deleteEntityPost = createAsyncThunk(
 
 export const putLikes = createAsyncThunk('posts/putLikes', async (postData: Post, thunkApi) => {
   const response = await axios
-    .put<Post>(`${URL}/posts/${postData.id}`, {
-      ...postData,
+    .patch<Post>(`${URL}/posts/${postData.id}`, {
       like: postData.like + 1,
     })
     .catch((err) => {
