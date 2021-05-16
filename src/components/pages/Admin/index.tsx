@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { AdminLayout } from 'src/components/template';
 
 import { useAppSelector } from 'src/app/hooks';
@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUpload } from '@fortawesome/free-solid-svg-icons';
 
-const Admin: React.VFC = () => {
+const Admin: React.VFC = memo(() => {
   const posts = useAppSelector(selectPosts.selectAll);
 
   return (
@@ -58,7 +58,7 @@ const Admin: React.VFC = () => {
       </StyledTable>
     </AdminLayout>
   );
-};
+});
 
 export default Admin;
 

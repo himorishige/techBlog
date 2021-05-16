@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
@@ -23,7 +23,7 @@ type Props = {
   isEdit: boolean;
 };
 
-const MarkdownEditBlock: React.VFC<Props> = (props) => {
+const MarkdownEditBlock: React.VFC<Props> = memo((props) => {
   const {
     title,
     inputTitleHandler,
@@ -131,7 +131,7 @@ const MarkdownEditBlock: React.VFC<Props> = (props) => {
       )}
     </>
   );
-};
+});
 
 export default MarkdownEditBlock;
 

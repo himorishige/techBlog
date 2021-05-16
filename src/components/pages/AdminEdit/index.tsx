@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, memo } from 'react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
 import { AdminLayout } from 'src/components/template';
 
@@ -18,7 +18,7 @@ type Props = RouteComponentProps & {
   };
 };
 
-const AdminEdit: React.VFC<Props> = (props) => {
+const AdminEdit: React.VFC<Props> = memo((props) => {
   const postId = Number(props.match.params.id);
   const status = useAppSelector(selectStatus);
   const post = useAppSelector((state) => selectPosts.selectById(state, postId));
@@ -29,15 +29,15 @@ const AdminEdit: React.VFC<Props> = (props) => {
   const dispatch = useAppDispatch();
   const { showToast } = useToast();
 
-  const inputTitleHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const inputTitleHandler = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
-  };
+  }, []);
 
-  const inputHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const inputHandler = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMarkdown(e.target.value);
-  };
+  }, []);
 
-  const updateHandler = async () => {
+  const updateHandler = useCallback(async () => {
     if (title === '') {
       alert('タイトルが未入力です。');
       return;
@@ -62,13 +62,13 @@ const AdminEdit: React.VFC<Props> = (props) => {
         history.goBack();
       }
     }
-  };
+  }, [dispatch, history, markdown, post, showToast, status, title]);
 
-  const cancelHandler = () => {
+  const cancelHandler = useCallback(() => {
     if (window.confirm('編集内容がキャンセルされますがよろしいですか？')) {
       history.goBack();
     }
-  };
+  }, [history]);
 
   useEffect(() => {
     if (post) {
@@ -93,6 +93,6 @@ const AdminEdit: React.VFC<Props> = (props) => {
       </AdminLayout>
     </>
   );
-};
+});
 
 export default AdminEdit;
