@@ -19,7 +19,18 @@ export type PostsState = {
  * entity用のアダプターを生成
  */
 
-const postsAdapter = createEntityAdapter<Post>();
+const postsAdapter = createEntityAdapter<Post>({
+  // 記事のデフォルトの並び順を降順に変更
+  selectId: (post) => post.id,
+  sortComparer: (a, b) => {
+    if (a.id < b.id) {
+      return 1;
+    } else {
+      return -1;
+    }
+  },
+});
+
 const postInitialEntityState = postsAdapter.getInitialState({
   // 型以外に設定したいものはここで用意
   status: 'idle',
@@ -76,7 +87,7 @@ export const updateEntityPost = createAsyncThunk(
 
 export const deleteEntityPost = createAsyncThunk(
   'posts/deleteEntityPost',
-  async (postId: string, thunkApi) => {
+  async (postId: number, thunkApi) => {
     const response = await axios
       .delete<Post>(`${URL}/posts/${postId}`, {
         data: { id: postId },
@@ -209,7 +220,7 @@ export const postsEntitySlice = createSlice({
           state.message = action.error.message;
         }
       })
-      .addCase(putLikes.fulfilled, (state, action: PayloadAction<{ id: string; like: number }>) => {
+      .addCase(putLikes.fulfilled, (state, action: PayloadAction<{ id: number; like: number }>) => {
         state.status = 'idle';
         // 1件のlikeという項目のみ更新
         postsAdapter.updateOne(state, {
@@ -227,7 +238,7 @@ export const postsEntitySlice = createSlice({
       })
       .addCase(
         togglePublish.fulfilled,
-        (state, action: PayloadAction<{ id: string; publish: boolean }>) => {
+        (state, action: PayloadAction<{ id: number; publish: boolean }>) => {
           // 1件のpublishという項目のみ更新
           state.status = 'idle';
           postsAdapter.updateOne(state, {

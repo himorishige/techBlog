@@ -44,7 +44,7 @@ export const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    addLikes: (state, action: PayloadAction<string>) => {
+    addLikes: (state, action: PayloadAction<number>) => {
       const target = state.posts.find((post) => post.id === action.payload);
       if (target) {
         target.like++;
@@ -90,7 +90,7 @@ export const postsSlice = createSlice({
 export const { addLikes } = postsSlice.actions;
 
 export const selectPosts = (state: RootState) => state.posts.posts;
-export const selectPost = (id: string) => {
+export const selectPost = (id: number) => {
   const post = (state: RootState) => state.posts.posts.find((post) => post.id === id);
   return post;
 };
