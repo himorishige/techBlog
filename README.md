@@ -2,7 +2,11 @@
 
 このプロジェクトはJSON Serverを使いRedux Toolkitを用いてデータを表示するブログアプリケーションのソースコードになります。
 
-[Reactを使ったテックブログを作成してみた](https://qiita.com/himorishige/items/7ebd87ddaf7c86901b9a)
+![スライド1](https://user-images.githubusercontent.com/71954454/118387059-ed52c780-b656-11eb-9b70-5dd6c304b624.png)
+![スライド2](https://user-images.githubusercontent.com/71954454/118387063-f9d72000-b656-11eb-91f6-f79c4179f617.png)
+![スライド3](https://user-images.githubusercontent.com/71954454/118387067-fe033d80-b656-11eb-9393-402d0d2ca7e8.png)
+
+[Reactを使ったテックブログを作成してみた](https://qiita.com/himorishige/items/7ebd87ddaf7c86901b9a)  
 [ReduxとRedux Toolkitについて(createAsyncThunkとcreateEntityAdapter推し)](https://qiita.com/himorishige/items/7ebd87ddaf7c86901b9a)
 
 ## 動作に必要な外部サービス
