@@ -50,7 +50,7 @@ const AdminEdit: React.VFC<Props> = memo((props) => {
         createdAt: post.createdAt,
         updatedAt: Date.now(),
         body: markdown,
-        image: '/assets/images/dummy01.jpeg',
+        image: '/assets/images/dummy01.jpg',
         like: post.like,
         publish: post.publish,
       };

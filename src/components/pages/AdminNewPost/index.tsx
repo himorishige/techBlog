@@ -37,7 +37,7 @@ const AdminNewPost: React.VFC = memo((props) => {
         createdAt: Date.now(),
         title: title,
         body: markdown,
-        image: '/assets/images/dummy01.jpeg',
+        image: '/assets/images/dummy01.jpg',
         like: 0,
         publish: isPublish,
       };
