@@ -1,0 +1,35 @@
+{
+  "paths": [
+    {
+      "name": "/posts",
+      "lambdaFunction": "techblog",
+      "privacy": {
+        "open": true
+      },
+      "policyResourceName": "/posts"
+    }
+  ],
+  "resourceName": "techblogAPI",
+  "apiName": "techblogAPI",
+  "functionArns": [
+    {
+      "lambdaFunction": "techblog"
+    }
+  ],
+  "privacy": {
+    "auth": 0,
+    "unauth": 0,
+    "authRoleName": "amplify-amplify59af0500ba114-staging-71319-authRole",
+    "unAuthRoleName": "amplify-amplify59af0500ba114-staging-71319-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "techblog",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}
