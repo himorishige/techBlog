@@ -16,7 +16,7 @@ const PostItemList: React.VFC<Props> = memo(({ posts }) => {
   return (
     <PostItemWrapper>
       {postsData.length ? (
-        postsData.map((post) => <PostItem key={post.id} post={post} />)
+        postsData.map((post) => <PostItem key={post._id} post={post} />)
       ) : (
         <ErrorMessage>記事がありません</ErrorMessage>
       )}

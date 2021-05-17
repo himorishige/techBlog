@@ -19,7 +19,7 @@ type Props = RouteComponentProps & {
 };
 
 const AdminEdit: React.VFC<Props> = memo((props) => {
-  const postId = Number(props.match.params.id);
+  const postId = props.match.params.id;
   const status = useAppSelector(selectStatus);
   const post = useAppSelector((state) => selectPosts.selectById(state, postId));
   const history = useHistory();
@@ -45,7 +45,7 @@ const AdminEdit: React.VFC<Props> = memo((props) => {
     if (post && status === 'idle') {
       setDisabled(true);
       const postData: Post = {
-        id: post.id,
+        _id: post._id,
         title: title,
         createdAt: post.createdAt,
         updatedAt: Date.now(),

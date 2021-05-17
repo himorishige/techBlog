@@ -33,7 +33,7 @@ const AdminNewPost: React.VFC = memo((props) => {
         return;
       }
       setDisabled(true);
-      const post: Omit<Post, 'id'> = {
+      const post: Omit<Post, '_id'> = {
         createdAt: Date.now(),
         title: title,
         body: markdown,

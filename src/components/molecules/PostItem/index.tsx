@@ -14,7 +14,7 @@ export type Props = {
 
 const PostItem: React.VFC<Props> = ({ post }) => {
   return (
-    <StyledLink to={`/posts/${post.id}`}>
+    <StyledLink to={`/posts/${post._id}`}>
       <PostListWrapper>
         <PostInfoWrapper>
           <StyledDiv>

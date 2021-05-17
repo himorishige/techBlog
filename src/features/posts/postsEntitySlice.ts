@@ -21,9 +21,9 @@ export type PostsState = {
 
 const postsAdapter = createEntityAdapter<Post>({
   // 記事のデフォルトの並び順を降順に変更
-  selectId: (post) => post.id,
+  selectId: (post) => post._id,
   sortComparer: (a, b) => {
-    if (a.id < b.id) {
+    if (a.createdAt < b.createdAt) {
       return 1;
     } else {
       return -1;
@@ -37,7 +37,7 @@ export const postInitialEntityState = postsAdapter.getInitialState({
   message: '',
 });
 
-const URL = process.env.REACT_APP_JSON_SERVER_URL || 'http://localhost:3000';
+const URL = process.env.REACT_APP_JSON_SERVER_URL || 'http://localhost:3001';
 
 /**
  * 投稿一覧を取得する
@@ -57,7 +57,7 @@ export const fetchEntityPosts = createAsyncThunk('posts/fetchEntityPosts', async
 
 export const addEntityPost = createAsyncThunk(
   'posts/addEntityPost',
-  async (post: Omit<Post, 'id'>, thunkApi) => {
+  async (post: Omit<Post, '_id'>, thunkApi) => {
     const response = await axios.post<Post>(`${URL}/posts`, post).catch((err) => {
       thunkApi.rejectWithValue(err);
       throw err;
@@ -73,7 +73,7 @@ export const addEntityPost = createAsyncThunk(
 export const updateEntityPost = createAsyncThunk(
   'posts/updateEntityPost',
   async (post: Post, thunkApi) => {
-    const response = await axios.put<Post>(`${URL}/posts/${post.id}`, post).catch((err) => {
+    const response = await axios.patch<Post>(`${URL}/posts/${post._id}`, post).catch((err) => {
       thunkApi.rejectWithValue(err);
       throw err;
     });
@@ -87,7 +87,7 @@ export const updateEntityPost = createAsyncThunk(
 
 export const deleteEntityPost = createAsyncThunk(
   'posts/deleteEntityPost',
-  async (postId: number, thunkApi) => {
+  async (postId: string, thunkApi) => {
     const response = await axios
       .delete<Post>(`${URL}/posts/${postId}`, {
         data: { id: postId },
@@ -106,7 +106,7 @@ export const deleteEntityPost = createAsyncThunk(
 
 export const putLikes = createAsyncThunk('posts/putLikes', async (postData: Post, thunkApi) => {
   const response = await axios
-    .patch<Post>(`${URL}/posts/${postData.id}`, {
+    .patch<Post>(`${URL}/posts/${postData._id}`, {
       like: postData.like + 1,
     })
     .catch((err) => {
@@ -114,7 +114,7 @@ export const putLikes = createAsyncThunk('posts/putLikes', async (postData: Post
       throw err;
     });
 
-  return { id: response.data.id, like: response.data.like };
+  return { id: response.data._id, like: response.data.like };
 });
 
 /**
@@ -125,15 +125,14 @@ export const togglePublish = createAsyncThunk(
   'posts/togglePublish',
   async (postData: Post, thunkApi) => {
     const response = await axios
-      .put<Post>(`${URL}/posts/${postData.id}`, {
-        ...postData,
+      .patch<Post>(`${URL}/posts/${postData._id}`, {
         publish: !postData.publish,
       })
       .catch((err) => {
         thunkApi.rejectWithValue(err);
         throw err;
       });
-    return { id: response.data.id, publish: response.data.publish };
+    return { id: response.data._id, publish: response.data.publish };
   },
 );
 
@@ -141,7 +140,7 @@ export const postsEntitySlice = createSlice({
   name: 'postsEntity',
   initialState: postInitialEntityState,
   reducers: {
-    addLikes: (state, action: PayloadAction<number>) => {},
+    addLikes: (state, action: PayloadAction<string>) => {},
   },
   extraReducers: (builder) => {
     builder
@@ -190,10 +189,10 @@ export const postsEntitySlice = createSlice({
       })
       .addCase(updateEntityPost.fulfilled, (state, action: PayloadAction<Post>) => {
         state.status = 'idle';
-        const { id, ...updateData } = action.payload;
+        const { _id, ...updateData } = action.payload;
         // 1件をidで指定して更新
         postsAdapter.updateOne(state, {
-          id: id,
+          id: _id,
           changes: { ...updateData },
         });
       })
@@ -219,7 +218,7 @@ export const postsEntitySlice = createSlice({
           state.message = action.error.message;
         }
       })
-      .addCase(putLikes.fulfilled, (state, action: PayloadAction<{ id: number; like: number }>) => {
+      .addCase(putLikes.fulfilled, (state, action: PayloadAction<{ id: string; like: number }>) => {
         state.status = 'idle';
         // 1件のlikeという項目のみ更新
         postsAdapter.updateOne(state, {
@@ -237,7 +236,7 @@ export const postsEntitySlice = createSlice({
       })
       .addCase(
         togglePublish.fulfilled,
-        (state, action: PayloadAction<{ id: number; publish: boolean }>) => {
+        (state, action: PayloadAction<{ id: string; publish: boolean }>) => {
           // 1件のpublishという項目のみ更新
           state.status = 'idle';
           postsAdapter.updateOne(state, {

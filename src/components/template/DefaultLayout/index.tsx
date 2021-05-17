@@ -31,7 +31,6 @@ const DefaultLayout: React.VFC<Props> = memo((props) => {
     if (!posts.length) {
       (async () => {
         const resultAction = await dispatch(fetchEntityPosts());
-        console.log('fetch');
         if (fetchEntityPosts.rejected.match(resultAction)) {
           showToast('FAIL', 'データの取得に失敗しました。');
         }

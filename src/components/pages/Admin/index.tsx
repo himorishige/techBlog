@@ -19,7 +19,7 @@ const Admin: React.VFC = memo(() => {
         <thead>
           <StyledThead>
             <StyledTh></StyledTh>
-            <StyledTh>ID</StyledTh>
+            <StyledTh className="minWidth">ID</StyledTh>
             <StyledTh>タイトル</StyledTh>
             <StyledTh className="minWidth">公開日</StyledTh>
             <StyledTh className="minWidth">更新日</StyledTh>
@@ -30,13 +30,15 @@ const Admin: React.VFC = memo(() => {
           {posts &&
             posts.map((post) => {
               return (
-                <StyledTr key={post.id}>
+                <StyledTr key={post._id}>
                   <StyledTd>{post.publish && <FontAwesomeIcon icon={faUpload} />}</StyledTd>
                   <StyledTd>
-                    <Center>{post.id}</Center>
+                    <Center style={{ fontSize: '0.5rem', wordBreak: 'break-all' }}>
+                      {post._id}
+                    </Center>
                   </StyledTd>
                   <StyledTd>
-                    <StyledLink to={`/admin/posts/${post.id}`}>{post.title}</StyledLink>
+                    <StyledLink to={`/admin/posts/${post._id}`}>{post.title}</StyledLink>
                   </StyledTd>
                   <StyledTd>
                     <Center>
